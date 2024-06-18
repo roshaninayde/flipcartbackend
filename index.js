@@ -1,9 +1,9 @@
 const express = require("express");
 const mongoose = require("mongoose");
-
+const cors  = require("cors");
 const app = express();
 const PORT = 3000;
-
+app.use (cors())
 // Replace with your MongoDB URI
 const MONGODB_URI ="mongodb+srv://roshani:roshani@cluster0.3c3gn3j.mongodb.net/roshani?retryWrites=true&w=majority&appName=Cluster0"
 mongoose.connect(MONGODB_URI, {
@@ -36,7 +36,7 @@ const flipkartSchema = new mongoose.Schema(
 const Flipkart = mongoose.model("flipcart", flipkartSchema);
 
 // Route to get data in chunks of 20
-app.get("/data", async (req, res) => {
+app.get("/data",cors() ,async (req, res) => {
   const page = parseInt(req.query.page) || 1;
   const limit = 20;
   const skip = (page - 1) * limit;
@@ -53,4 +53,8 @@ const server = app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
 
-server.timeout = 300000; // 300000 milliseconds = 5 minutes
+server.timeout = 300000; // 300000 milliseconds = 5 minutes 
+
+
+
+
